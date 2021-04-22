@@ -1,0 +1,320 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           
+           http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<context:annotation-config />
+	<aop:aspectj-autoproxy />
+
+	<context:component-scan
+		base-package="com.spring.aop,com.dao" />
+
+	<bean id="hello" class="com.beans.HelloWorld" scope="prototype">
+
+	</bean>
+
+	<bean id="user" class="com.beans.User">
+		<property name="name" value="Sri" />
+		<property name="age" value="25" />
+		<property name="country" value="India" />
+	</bean>
+
+	<bean id="user1" class="com.beans.User">
+		<property name="name" value="Sai" />
+		<property name="age" value="23" />
+		<property name="country" value="India" />
+	</bean>
+
+	<!-- constructor injection -->
+	<bean id="addressObj2" class="com.beans.Address">
+		<constructor-arg name="street" value="First Street" />
+		<constructor-arg name="city" value="Mumbai" />
+		<constructor-arg name="pinCode" value="603202" />
+	</bean>
+
+	<bean id="person1" class="com.beans.Person">
+		<constructor-arg name="name" value="Sri" />
+		<constructor-arg ref="addressObj2" />
+	</bean>
+
+<!--  setter injection -->
+	<bean id="person2" class="com.beans.Person">
+		<property name="name" value="Sri" />
+		<property name="address" ref="addressObj2" />
+	</bean>
+
+	<bean id="person" class="com.beans.Person">
+		<property name="name" value="Sai" />
+		<property name="address">
+			<bean id="addressObj" class="com.beans.Address">
+				<property name="street" value="Netaji Street" />
+				<property name="city" value="Chennai" />
+				<property name="pinCode" value="603102" />
+
+			</bean>
+		</property>
+	</bean>
+	
+
+	<bean id="player" class="com.beans.Player">
+		<constructor-arg name="name" value="Dhoni" />
+		<constructor-arg name="skill" value="Batsman" />
+		<constructor-arg name="country" value="India" />
+	</bean>
+
+	<bean id="player1" class="com.beans.Player">
+		<constructor-arg name="name" value="Dhoni" />
+		<constructor-arg name="skill" value="Batsman" />
+
+	</bean>
+
+	<!-- <bean id="player2" class="com.beans.Player"> <constructor-arg index="0" 
+		value="Dhoni" /> <constructor-arg index="2" value="India" /> <constructor-arg 
+		index="1" value="Batsman" /> </bean> -->
+
+	<bean id="player3" class="com.beans.Player">
+		<constructor-arg index="1" value="Batsman" />
+		<constructor-arg index="0" value="Dhoni" />
+
+	</bean>
+
+	<bean id="player4" class="com.beans.Player">
+
+		<constructor-arg value="100.45" />
+		<constructor-arg value="Dhoni" />
+	</bean>
+
+
+
+	<!-- Inner bean setter injection <bean id="addressObj" class="com.beans.Address"> 
+		<property name="street" value="Netaji Street" /> <property name="city" value="Chennai" 
+		/> <property name="pinCode" value="603102" /> </bean> <bean id="person" class="com.beans.Person"> 
+		<property name="name" value="Sai" /> <property name="address" ref="addressObj" 
+		/> </bean> -->
+	<!-- p:schema -->
+	<bean id="employeeBean" class="com.beans.Employee" p:id="1234"
+		p:name="Daniel" />
+
+
+	<context:property-placeholder
+		location="classpath:patient_details.properties,db.properties" />
+
+	<bean id="ps" class="com.service.PatientService">
+		<property name="patient" ref="p"></property>
+	</bean>
+
+	<bean id="p" class="com.beans.Patient">
+		<property name="pid" value="${pid}"></property>
+		<property name="pname" value="${pname}"></property>
+		<property name="disease" value="${disease}"></property>
+		<property name="gender" value="${gender}"></property>
+		<property name="admit_status" value="${admit_status}"></property>
+		<property name="age" value="${age}"></property>
+
+	</bean>
+
+	<!-- Collections -->
+	<bean id="shapeCollection" class="com.beans.ShapeCollection">
+		<property name="shapeOfList">
+			<list>
+				<value>Triangle</value>
+				<value>Circle</value>
+				<value>Square</value>
+				<value>Rectangle</value>
+			</list>
+		</property>
+		<property name="shapeOfSet">
+			<set>
+				<value>Triangle</value>
+				<value>Circle</value>
+				<value>Square</value>
+				<value>Rectangle</value>
+			</set>
+		</property>
+		<property name="shapeOfMap">
+			<map>
+				<entry key="1" value="Triangle"></entry>
+				<entry key="2" value="Circle"></entry>
+				<entry key="3" value="Square"></entry>
+				<entry key="4" value="Rectangle"></entry>
+			</map>
+		</property>
+
+	</bean>
+
+	<!-- autowiring byName -->
+	<!-- <bean id="bk" class="com.autowire.Book"> <property name="bookName" 
+		value="Head first Java" /> <property name="bookPrice" value="1000" /> </bean> 
+		<bean id="book" class="com.autowire.Book"> <property name="bookName" value="Spring 
+		Design Pattern" /> <property name="bookPrice" value="2500" /> </bean> <bean 
+		id="author" class="com.autowire.Author" autowire="byName"> <property name="name" 
+		value="Gosling" /> </bean> -->
+
+
+	<!-- autowiring byType -->
+
+	<!-- <bean id="book1" class="com.autowire.Book"> <property name="bookName" 
+		value="Java Complete Reference" /> <property name="bookPrice" value="1000" 
+		/> </bean> <bean id="book3" class="com.autowire.Book"> <property name="bookName" 
+		value="Java Design Patterns" /> <property name="bookPrice" value="1000" /> 
+		</bean> <bean id="book2" class="com.beans.Book"> <property name="bookName" 
+		value="Java Design Pattern" /> <property name="bookPrice" value="1500" /> 
+		<property name="edition" value="2019" /> </bean> <bean id="author1" class="com.autowire.Author" 
+		autowire="byType"> <property name="name" value="Gosling" /> </bean> -->
+
+	<!-- autowiring byConstructor -->
+
+	<bean id="bk1" class="com.beans.Book">
+		<constructor-arg name="bookName"
+			value="Spring 5.0 tutorial" />
+		<constructor-arg name="bookPrice" value="2500" />
+		<constructor-arg name="edition" value="2020" />
+	</bean>
+
+	<bean id="book1" class="com.autowire.Book">
+		<property name="bookName" value="Java Complete Reference" />
+		<property name="bookPrice" value="1000" />
+	</bean>
+
+	<bean id="author2" class="com.autowire.Author"
+		autowire="constructor">
+		<constructor-arg name="name" value="Gosling" />
+	</bean>
+
+
+
+
+
+
+
+
+
+
+	<!-- Interface Injection -->
+	<bean id="square" class="com.interfaces.Square">
+		<property name="side" value="5" />
+	</bean>
+
+	<bean id="rectangle" class="com.interfaces.Rectangle">
+		<property name="length" value="5" />
+		<property name="breadth" value="6" />
+	</bean>
+
+	<bean id="findArea" class="com.interfaces.FindArea">
+		<property name="shape" ref="rectangle" />
+	</bean>
+
+	<!-- autowiring with annotation -->
+	<!-- <bean id="emp" class="com.annotation.Employee"> <property name="id" 
+		value="1001"></property> <property name="name" value="Sai"></property> </bean> 
+		<bean id="dept" class="com.annotation.Department"> <property name="departmentName" 
+		value="IT"></property> <property name="manager" value="Minu"></property> 
+		</bean> <bean id="dept1" class="com.annotation.Department"> <property name="departmentName" 
+		value="Sales"> </property> <property name="manager" value="ABC"></property> 
+		</bean> -->
+
+	<!-- autowiring with constructor -->
+	<!-- <bean id="employee" class="com.annotation.Employee"> <constructor-arg 
+		name="id" index="0" value="1002" /> <constructor-arg name="name" index="1" 
+		value="Sri" /> </bean> <bean id="department" class="com.annotation.Department"> 
+		<constructor-arg name="departmentName" index="0" value="HR" /> <constructor-arg 
+		name="manager" index="1" value="Minu" /> </bean> -->
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<value>messages</value>
+		</property>
+	</bean>
+
+	<!-- Life cycle -->
+	<bean id="awareBean" class="com.lifecycle.AwareBeanImpl"
+		init-method="customInit" destroy-method="destroy">
+	</bean>
+
+	<!-- Spring AOP -->
+
+	<!-- <bean id="loggingAspect" class="com.spring.aop.EmployeeCRUDAspect" 
+		/> -->
+
+	<aop:config>
+		<!-- Spring AOP aspect -->
+		<aop:aspect id="logAspect" ref="loggingAspectBean">
+			<!-- Spring AOP Pointcut definitions -->
+			<aop:pointcut id="loggingOperation"
+				expression="execution(* com.spring.aop.EmployeeManager.*(..))" />
+
+			<!-- <aop:pointcut id="transactionOperation" expression="execution(* com.spring.aop.EmployeeManager.getEmployeeById(..))" 
+				/> -->
+
+			<!-- Spring AOP advises -->
+
+			<aop:before pointcut-ref="loggingOperation"
+				method="logBefore" />
+			<aop:after pointcut-ref="loggingOperation"
+				method="logAfter" />
+
+		</aop:aspect>
+
+		<!-- Spring AOP aspect 2 -->
+		<!-- <aop:aspect id="transactionAspect" ref="transactionAspectBean"> <aop:before 
+			pointcut-ref="transactionOperation" method="getEmployeeById" /> </aop:aspect> -->
+	</aop:config>
+
+	<bean id="loggingAspectBean"
+		class="com.spring.aop.EmployeeCRUDLoggingAspect" />
+	<bean id="transactionAspectBean"
+		class="com.spring.aop.EmployeeCRUDTransactionAspect" />
+
+	<bean id="loggingAspect1" class="com.spring.aop.LoggingAspect" />
+
+
+	<bean id="employeeManager"
+		class="com.spring.aop.EmployeeManagerImpl" />
+
+	<!-- Spring Jdbc <context:property-placeholder location="classpath:db.properties" 
+		/> -->
+
+
+
+
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+
+	</bean>
+
+
+	<bean id="personDao" class="com.dao.PersonDaoImpl" />
+	<bean id="personService" class="com.service.PersonServiceImpl" />
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
