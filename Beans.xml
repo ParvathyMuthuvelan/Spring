@@ -5,6 +5,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context
@@ -19,7 +20,7 @@
 	<context:component-scan
 		base-package="com.spring.aop,com.dao" />
 
-	<bean id="hello" class="com.beans.HelloWorld" scope="prototype">
+	<bean id="hello" class="com.beans.HelloWorld" scope="prototype" >
 
 	</bean>
 
@@ -36,12 +37,19 @@
 	</bean>
 
 	<!-- constructor injection -->
-	<bean id="addressObj2" class="com.beans.Address">
+	<bean id="addressObj1" class="com.beans.Address">
 		<constructor-arg name="street" value="First Street" />
 		<constructor-arg name="city" value="Mumbai" />
 		<constructor-arg name="pinCode" value="603202" />
 	</bean>
+	
+	<bean id="addressObj2" class="com.beans.Address">
+				<property name="street" value="Netaji Street" />
+				<property name="city" value="Chennai" />
+				<property name="pinCode" value="603102" />
 
+			</bean>
+			
 	<bean id="person1" class="com.beans.Person">
 		<constructor-arg name="name" value="Sri" />
 		<constructor-arg ref="addressObj2" />
@@ -64,7 +72,31 @@
 			</bean>
 		</property>
 	</bean>
-	
+	<!-- list of objects with setter injection -->
+	<bean id="student" class="com.beans.Student" >
+   	   <property name="name" value="Jai"/>
+       <property name="rollNo" value="MCA/07/06"/>
+       <property name="className" value="MCA"/>
+       <property name="address">
+        <list>
+      	 <ref bean="addressObj1"/>
+         <ref bean="addressObj2"/>
+        </list>
+       </property>
+   </bean>
+   
+   <!-- list of objects with cons injection -->
+   <bean id="student1" class="com.beans.Student">
+   	   <constructor-arg name="name" value="Sai"/>
+       <constructor-arg name="rollNo" value="MCA/08/06"/>
+       <constructor-arg name="className" value="MCA"/>
+       <constructor-arg name="address">
+        <list>
+      	 <ref bean="addressObj1"/>
+         <ref bean="addressObj2"/>
+        </list>
+       </constructor-arg>
+   </bean>
 
 	<bean id="player" class="com.beans.Player">
 		<constructor-arg name="name" value="Dhoni" />
@@ -101,6 +133,7 @@
 		/> <property name="pinCode" value="603102" /> </bean> <bean id="person" class="com.beans.Person"> 
 		<property name="name" value="Sai" /> <property name="address" ref="addressObj" 
 		/> </bean> -->
+		
 	<!-- p:schema -->
 	<bean id="employeeBean" class="com.beans.Employee" p:id="1234"
 		p:name="Daniel" />
