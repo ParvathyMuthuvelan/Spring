@@ -1,6 +1,7 @@
 package com.beans;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.BeansException;
@@ -15,19 +16,21 @@ public class Main {
 	public static void main(String[] args) throws BeansException, FileNotFoundException {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 
-//		HelloWorld obj = (HelloWorld) context.getBean("hello");
-//		//obj.display();
-//		System.out.println(obj.hashCode());
-//		HelloWorld obj1 = (HelloWorld) context.getBean("hello");
-//		System.out.println(obj1.hashCode());
-//		HelloWorld obj2 = (HelloWorld) context.getBean("hello");
-//		System.out.println(obj2.hashCode());
+		HelloWorld obj = (HelloWorld) context.getBean("hello");
+		//obj.display();
+		System.out.println(obj.hashCode());
+		HelloWorld obj1 = (HelloWorld) context.getBean("hello");
+		System.out.println(obj1.hashCode());
+		HelloWorld obj2 = (HelloWorld) context.getBean("hello");
+		System.out.println(obj2.hashCode());
+		
 //		Player p=(Player)context.getBean("player4");
 //		System.out.println(p);
 //Setter Injection
 		User u=(User)context.getBean("user");
 		System.out.println("User details");
 		System.out.println(u);
+		
 //		
 		User u1=(User)context.getBean("user1");
 		System.out.println("User details");
@@ -37,6 +40,8 @@ public class Main {
 		Player p=(Player)context.getBean("player");
 		System.out.println("Player details");
 		System.out.println(p);
+		p.setSkill("All rounder");
+		System.out.println("After changing skill="+p);
 		
 		Player p1=(Player)context.getBean("player1");
 		System.out.println("Player details");
@@ -65,8 +70,26 @@ public class Main {
 		System.out.println("Name="+person3.getName());
 		System.out.println("city ="+person3.getAddress().getCity());
 		
-//		Employee emp=(Employee)context.getBean("employeeBean");
-//		System.out.println(emp);
+	Student student = (Student) context.getBean("student1");
+		 
+		//Process Student Object.
+		System.out.println("Student info: ");
+		System.out.println("Name: " + student.getName());
+		System.out.println("RollNo: " + student.getRollNo());
+		System.out.println("Class: " + student.getClassName());
+	 
+		//Get Address from Student Object.
+		List<Address> studentAddressList = student.getAddress();
+		studentAddressList.forEach(obj3->System.out.println(obj3));
+		/*Bean Scope
+		singleton
+		prototype
+		request
+		session
+		global-session*/
+		System.out.println("Using p:schema for properties");
+		Employee emp=(Employee)context.getBean("employeeBean");
+		System.out.println(emp);
 		
 //PatientService ps=context.getBean("ps",PatientService.class);
 //	ps.getPatientDetails();
@@ -77,12 +100,13 @@ public class Main {
 //		 String message = context.getMessage("msg.text", null, locale);
 //         
 	      //  System.out.println(message);
-	        AwareBeanImpl awareBeanImpl = (AwareBeanImpl) context.getBean("awareBean");
-	      ((AbstractApplicationContext) context).registerShutdownHook();
+//	        AwareBeanImpl awareBeanImpl = (AwareBeanImpl) context.getBean("awareBean");
+//	      ((AbstractApplicationContext) context).registerShutdownHook();
 		//Injecting collections
-//		ShapeCollection shape = (ShapeCollection) context.getBean("shapeCollection");
-//		System.out.println(shape);
-//		shape.getMap();
+		ShapeCollection shape = (ShapeCollection) context.getBean("shapeCollection");
+		System.out.println(shape);
+shape.getMap();
+		
 		// java -jar SpringProject-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 	}
